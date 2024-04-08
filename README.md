@@ -39,7 +39,7 @@ rosrun franka_zed_gazebo spawn_cubes.py
 ```
 
 <p align="center">
-  <img src="images/rviz.png" width="600"/>
+  <img src="images/rviz.png"/>
 </p>
 
 > [!NOTE]
