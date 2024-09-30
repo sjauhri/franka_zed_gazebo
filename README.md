@@ -15,9 +15,9 @@ To launch the simulation, you will need a few packages including [`libfranka`](h
 docker pull docker pull 3liyounes/pearl_robots:franka_wo_nvidia
 ```
 
-If you will use the real ZED2 camera, you will need the Docker with cuda installation and the [`zed_ros_wrapper`](https://www.stereolabs.com/docs/ros) package:
+If you will use the real ZED2 camera, you will need the Docker with cuda installation and the [`zed_ros_wrapper`](https://www.stereolabs.com/docs/ros) package. Docker image updated on 30.09.2024:
 ```
-docker pull docker pull 3liyounes/pearl_robots:franka
+docker pull sophiamoyen/franka_noetic:30092024
 ```
 
 > [!NOTE]
