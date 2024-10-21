@@ -21,7 +21,7 @@ docker pull sophiamoyen/franka_noetic:30092024
 ```
 
 > [!NOTE]
-> For installing docker, you can follow the [Pearl Lab instructions](https://github.com/iROSA-lab/Docker_env)
+> For installing docker, you can follow the [Pearl Lab instructions](https://github.com/pearl-robot-lab/Docker_env)
 
 >[!TIP]
 > Remember to allow any external programm X11 to access the GUI: 
@@ -77,7 +77,7 @@ roslaunch franka_zed_gazebo real_robot_zed2.launch robot_ip:=192.168.1.35
 If you want to test your code on real camera data without accessing the lab, you can use the rosbags samples coollected by using the `rosbags` branch of this repository, where there are 4 samples of data available of the camera mounted on the real robot facing different configuration of cubes.
 
 ```
-git clone -b rosbags https://github.com/iROSA-lab/franka_zed_gazebo.git
+git clone -b rosbags https://github.com/pearl-robot-lab/franka_zed_gazebo.git
 ```
 
 You can play the bag in a loop and access the topics for the rgb image, depth and pointcloud (sample 2). Remember to have the ROS master running in another terminal.
