@@ -9,29 +9,46 @@ This repository contains the necessary files to launch a gazebo simulation of th
 
 ## Docker
 
-To launch the simulation, you will need a few packages including [`libfranka`](https://frankaemika.github.io/docs/installation_linux.html), [`franka_ros`](https://frankaemika.github.io/docs/installation_linux.html), [MoveIt!](https://ros-planning.github.io/moveit_tutorials/doc/getting_started/getting_started.html) and [`panda_moveit_config`](http://wiki.ros.org/panda_moveit_config). You can upull our Docker already set up with the necessary packages:
+To launch the simulation, you will need a few packages including [`libfranka`](https://frankaemika.github.io/docs/installation_linux.html), [`franka_ros`](https://frankaemika.github.io/docs/installation_linux.html), [MoveIt!](https://ros-planning.github.io/moveit_tutorials/doc/getting_started/getting_started.html) and [`panda_moveit_config`](http://wiki.ros.org/panda_moveit_config). For convenience, you can install a docker and pull images with the necessary packages.
 
+For installing the docker, you can follow the instructions [here](https://github.com/pearl-robot-lab/Docker_env). 
+
+Then you can pull the images.
+
+* If your PC has an NVIDIA GPU, you can run:
 ```
-docker pull docker pull 3liyounes/pearl_robots:franka_wo_nvidia
+docker pull 3liyounes/pearl_robots:franka
 ```
 
-If you will use the real ZED2 camera, you will need the Docker with cuda installation and the [`zed_ros_wrapper`](https://www.stereolabs.com/docs/ros) package. Docker image updated on 30.09.2024:
+* If your PC does not have an NVIDIA GPU, you can run:
+```
+docker pull 3liyounes/pearl_robots:franka_wo_nvidia
+```
+
+* If you will use the real ZED2 camera, you will need the Docker with cuda installation and the [`zed_ros_wrapper`](https://www.stereolabs.com/docs/ros) package. Docker image updated on 30.09.2024:
 ```
 docker pull sophiamoyen/franka_noetic:30092024
 ```
 
-> [!NOTE]
-> For installing docker, you can follow the [Pearl Lab instructions](https://github.com/pearl-robot-lab/Docker_env)
+Remember to allow any external program X11 to access the GUI: 
+```
+xhost +
+```
 
->[!TIP]
-> Remember to allow any external programm X11 to access the GUI: 
-> ```
-> xhost +
-> ```
+Create a container with a name to contain the pulled image (only once!)
+```
+source ~/.bashrc
+docker_run_no_gpu --name=container_name 3liyounes/pearl_robots:franka_wo_nvidia bash
+```
+
+Now you are within the docker workspace. If you want to access the workspace in a new terminal, just run:
+```
+docker exec -it container_name bash
+```
 
 ## Simulation
 
-With all packages installed, you can launch the Gazebo simulator together with RviZ and the Motion Planning interface from MoveIt! and then spawn the cubes on the table. Manipulate the robot using the arrows and click on `Plan & Execute` to manually move the robot as you wish. You can add the image panels by clicking `Add`>`By topic` on the left panel and select the topic you want to visualize.
+With all packages installed, you can launch the Gazebo simulator together with RviZ and the Motion Planning interface from MoveIt! and then spawn the cubes on the table. Manipulate the robot using the arrows and click on `Plan & Execute` to manually move the robot as you wish. You can add the image panels by clicking `Add`>`By topic` on the left panel and selecting the topic you want to visualize.
 
 ```
 roslaunch franka_zed_gazebo moveit_gazebo_panda.launch
@@ -57,7 +74,7 @@ rosrun franka_zed_gazebo spawn_cubes.py
 
 If you want to use the real ZED2 camera on the real robot, make sure you have to have the right 3D printed mount file (with gripper on the field of view and without it), available inside the `3d_prints` folder. 
 
-Turn on the robot (controller box under the table). Access the work desk by typing the ip addres of the robot in the browser. Unlock the robot before using. 
+Turn on the robot (controller box under the table). Access the work desk by typing the ip address of the robot in the browser. Unlock the robot before using. 
 
 - If you are sending commands through ROS, activate the FCI and put in Execution mode.
 - If you want to manually move the robot, activate Programming mode and, on the robot, press lightly at the same time the two buttons located on the left of the end-effector (check [manual](https://www.generationrobots.com/media/franka-emika-robot-handbook.pdf) for exact location)
