@@ -24,4 +24,6 @@
          as well as GripperCommand actions -->
     <arg name="moveit_controller_manager" value="simple" />
   </include>
+
+  <node pkg="franka_zed_gazebo" name="spawn_cubes" type="spawn_cubes.py" />
 </launch>
