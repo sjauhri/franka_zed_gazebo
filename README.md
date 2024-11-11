@@ -38,6 +38,12 @@ xhost +
 Create a container with a name to contain the pulled image (only once!)
 ```
 source ~/.bashrc
+docker_run_nvidia --name=container_name 3liyounes/pearl_robots:franka bash
+```
+
+Or:
+```
+source ~/.bashrc
 docker_run_no_gpu --name=container_name 3liyounes/pearl_robots:franka_wo_nvidia bash
 ```
 
@@ -52,7 +58,6 @@ With all packages installed, you can launch the Gazebo simulator together with R
 
 ```
 roslaunch franka_zed_gazebo moveit_gazebo_panda.launch
-rosrun franka_zed_gazebo spawn_cubes.py
 ```
 
 <p align="center">
