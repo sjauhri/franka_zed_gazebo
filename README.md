@@ -52,6 +52,11 @@ Now you are within the docker workspace. If you want to access the workspace in 
 docker exec -it container_name bash
 ```
 
+Get up-to-date repo by
+```
+cd src/franka_zed_gazebo/ && git pull && cd ../..
+```
+
 ## Simulation
 
 With all packages installed, you can launch the Gazebo simulator together with RviZ and the Motion Planning interface from MoveIt! and then spawn the cubes on the table. Manipulate the robot using the arrows and click on `Plan & Execute` to manually move the robot as you wish. You can add the image panels by clicking `Add`>`By topic` on the left panel and selecting the topic you want to visualize.
