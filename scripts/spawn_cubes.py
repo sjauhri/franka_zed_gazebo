@@ -2,7 +2,7 @@
 import random
 
 import rospy
-from gazebo_msgs.srv import SpawnModel
+from gazebo_msgs.srv import SpawnModel, DeleteModel, GetWorldProperties
 from geometry_msgs.msg import Pose, Quaternion, Point
 from tf.transformations import quaternion_from_euler
 
@@ -150,13 +150,23 @@ cube_urdf = """
 </robot>
 """
 
+
+def get_service(name, service_class):
+  service = rospy.ServiceProxy(name, service_class)
+  rospy.wait_for_service(name)
+  return service
+
+
 rospy.init_node('spawn_cubes', anonymous=True)
-Spawning = rospy.ServiceProxy("gazebo/spawn_sdf_model", SpawnModel)  # you can cange sdf to urdf
-rospy.wait_for_service("gazebo/spawn_sdf_model")  # you can cange sdf to urdf
+Spawning = get_service("gazebo/spawn_sdf_model", SpawnModel)  # you can cange sdf to urdf
+Deleting = get_service("gazebo/delete_model", DeleteModel)
+Properties = get_service("gazebo/get_world_properties", GetWorldProperties)
+
+cube_model_prefix = 'cube_'
 
 
 def spawn(id, position, orientation):
-  model_name = 'cube_{0}'.format(id)
+  model_name = f'{cube_model_prefix}{id}'
   model_xml = cube_sdf.replace('%NAME%', model_name)  # you can cange sdf to urdf
   cube_pose = Pose(Point(*position), Quaternion(*quaternion_from_euler(*orientation)))
   Spawning(model_name, model_xml, "", cube_pose, "world")
@@ -172,6 +182,13 @@ table_zlim = [0.1, 0.2]
 xpose = 0.5
 ypose = 0
 zpose = 0
+
+# delete old cubes
+world_properties = Properties()
+cube_models = [model_name for model_name in world_properties.model_names if model_name.startswith(cube_model_prefix)]
+for cube in cube_models:
+  Deleting(cube)
+  rospy.loginfo(f"{cube} was deleted in Gazebo")
 
 for i in range(28):
   position = [xpose + random.uniform(*table_xlim),
