@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-import rospy
-
-from geometry_msgs.msg import Pose, Quaternion, Point
-from tf.transformations import quaternion_from_euler
-from gazebo_msgs.srv import SpawnModel
 import random
 
-cube_sdf="""
+import rospy
+from gazebo_msgs.srv import SpawnModel
+from geometry_msgs.msg import Pose, Quaternion, Point
+from tf.transformations import quaternion_from_euler
+
+cube_sdf = """
 <?xml version="1.0" ?>
 <sdf version="1.4">
 <model name='%NAME%'>
@@ -83,7 +83,7 @@ cube_sdf="""
 </model>
 """
 
-cube_urdf="""
+cube_urdf = """
 <?xml version="1.0" ?>
 <robot name="%NAME%" xmlns:xacro="http://ros.org/wiki/xacro">
     <link name="%NAME%">
@@ -151,31 +151,32 @@ cube_urdf="""
 """
 
 rospy.init_node('spawn_cubes', anonymous=True)
-Spawning = rospy.ServiceProxy("gazebo/spawn_sdf_model", SpawnModel) # you can cange sdf to urdf
-rospy.wait_for_service("gazebo/spawn_sdf_model") # you can cange sdf to urdf
+Spawning = rospy.ServiceProxy("gazebo/spawn_sdf_model", SpawnModel)  # you can cange sdf to urdf
+rospy.wait_for_service("gazebo/spawn_sdf_model")  # you can cange sdf to urdf
+
 
 def spawn(id, position, orientation):
-  model_name='cube_{0}'.format(id)
-  model_xml = cube_sdf.replace('%NAME%', model_name) # you can cange sdf to urdf
+  model_name = 'cube_{0}'.format(id)
+  model_xml = cube_sdf.replace('%NAME%', model_name)  # you can cange sdf to urdf
   cube_pose = Pose(Point(*position), Quaternion(*quaternion_from_euler(*orientation)))
   Spawning(model_name, model_xml, "", cube_pose, "world")
   rospy.loginfo("%s was spawned in Gazebo", model_name)
 
+
 # the ranges for generating cubs
 # table size is 0.6 x 0.75
-table_xlim=[-0.2,0.2]
-table_ylim=[-0.3, 0.3]
-table_zlim=[0.1, 0.2]
+table_xlim = [-0.2, 0.2]
+table_ylim = [-0.3, 0.3]
+table_zlim = [0.1, 0.2]
 # table surface pose
-xpose=0.5
-ypose=0
-zpose=0
-
+xpose = 0.5
+ypose = 0
+zpose = 0
 
 for i in range(28):
-  position=[xpose + random.uniform(*table_xlim),
-            ypose + random.uniform(*table_ylim),
-            zpose + random.uniform(*table_zlim)
-  ]
-  orientation=[random.uniform(-1.5,1.5), random.uniform(-1.5,1.5), random.uniform(-1.5,1.5)]
+  position = [xpose + random.uniform(*table_xlim),
+              ypose + random.uniform(*table_ylim),
+              zpose + random.uniform(*table_zlim)
+              ]
+  orientation = [random.uniform(-1.5, 1.5), random.uniform(-1.5, 1.5), random.uniform(-1.5, 1.5)]
   spawn(i, position, orientation)
