@@ -25,9 +25,9 @@ docker pull 3liyounes/pearl_robots:franka
 docker pull 3liyounes/pearl_robots:franka_wo_nvidia
 ```
 
-* If you will use the real ZED2 camera, you will need the Docker with cuda installation and the [`zed_ros_wrapper`](https://www.stereolabs.com/docs/ros) package. Docker image updated on 30.09.2024:
+* If you want to test in the real robot with ZED2 camera, you can run:
 ```
-docker pull sophiamoyen/franka_noetic:30092024
+docker pull 3liyounes/pearl_robots:franka_real
 ```
 
 Remember to allow any external program X11 to access the GUI: 
@@ -38,13 +38,7 @@ xhost +
 Create a container with a name to contain the pulled image (only once!)
 ```
 source ~/.bashrc
-docker_run_nvidia --name=container_name 3liyounes/pearl_robots:franka bash
-```
-
-Or:
-```
-source ~/.bashrc
-docker_run_no_gpu --name=container_name 3liyounes/pearl_robots:franka_wo_nvidia bash
+docker_run_nvidia --name=container_name 3liyounes/pearl_robots:image_name bash
 ```
 
 Now you are within the docker workspace. If you want to access the workspace in a new terminal, just run:
@@ -92,7 +86,7 @@ Turn on the robot (controller box under the table). Access the work desk by typi
 If you are using the camera holder with the gripper in the field of view, edit the transformation in file `launch/real_robot_zed2.launch`. While in Execution mode, you can launch the camera together with the robot:
 
 ```
-roslaunch franka_zed_gazebo real_robot_zed2.launch robot_ip:=192.168.1.35
+roslaunch franka_zed_gazebo real_robot_zed2.launch robot_ip:=10.10.10.10
 ```
 
 
